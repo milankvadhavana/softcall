@@ -1,0 +1,68 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a> ›
+  <a href="{% url 'admin:app_list' app_label='soft' %}">Soft</a> ›
+  <a href="{% url 'admin:soft_contactdata_changelist' %}">Contacts</a> ›
+  Bulk Upload
+</div>
+{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom:20px;">📤 Bulk Upload Contacts</h2>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;
+            padding:14px 18px;border-radius:4px;
+            margin-bottom:24px;max-width:660px;">
+  <strong>Required file columns:</strong>
+  <code>name</code>, <code>contact_number</code>
+  | Optional: <code>email</code><br><br>
+  <strong>Sample CSV:</strong><br>
+  <code style="background:#f5f5f5;padding:8px;display:block;margin-top:6px;white-space:pre;">name,contact_number,email
+John Doe,9876543210,john@example.com
+Jane Smith,9123456780,</code>
+</div>
+
+<form method="post" enctype="multipart/form-data"
+      style="background:#fff;padding:24px;border:1px solid #ddd;
+             border-radius:6px;max-width:620px;">
+  {% csrf_token %}
+
+  <div style="margin-bottom:20px;">
+    <label style="display:block;font-weight:bold;margin-bottom:6px;">
+      Assign all contacts to: <span style="color:red">*</span>
+    </label>
+    {{ form.assigned_to }}
+    {% for e in form.assigned_to.errors %}
+      <p style="color:red;font-size:12px;margin:4px 0">{{ e }}</p>
+    {% endfor %}
+    <p style="color:#888;font-size:12px;margin:4px 0">Only your active users are listed.</p>
+  </div>
+
+  <div style="margin-bottom:24px;">
+    <label style="display:block;font-weight:bold;margin-bottom:6px;">
+      Upload File: <span style="color:red">*</span>
+    </label>
+    {{ form.file }}
+    {% for e in form.file.errors %}
+      <p style="color:red;font-size:12px;margin:4px 0">{{ e }}</p>
+    {% endfor %}
+    <p style="color:#888;font-size:12px;margin:4px 0">Accepts .csv or .xlsx</p>
+  </div>
+
+  <div style="display:flex;gap:12px;">
+    <button type="submit"
+      style="background:#28a745;color:#fff;padding:10px 28px;border:none;
+             border-radius:4px;font-size:14px;cursor:pointer;font-weight:bold;">
+      Upload &amp; Save Contacts
+    </button>
+    <a href="../"
+      style="background:#6c757d;color:#fff;padding:10px 20px;border-radius:4px;
+             text-decoration:none;font-size:14px;display:inline-block;line-height:1.5;">
+      Cancel
+    </a>
+  </div>
+</form>
+{% endblock %}

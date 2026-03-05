@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  <li>
+    <a href="/admin/soft/contactdata/bulk-upload/"
+       style="background:#17a2b8;color:#fff;padding:7px 16px;
+              border-radius:4px;text-decoration:none;font-weight:bold;
+              font-size:13px;display:inline-block;">
+      📤 Bulk Upload CSV/Excel
+    </a>
+  </li>
+  {{ block.super }}
+{% endblock %}

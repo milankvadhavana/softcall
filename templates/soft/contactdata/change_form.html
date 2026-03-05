@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools-items %}
+<li>
+  <a href="/admin/soft/contactdata/bulk-upload/"
+     style="background:#17a2b8 !important;color:#fff !important;
+            padding:6px 14px;border-radius:4px;text-decoration:none;
+            font-weight:bold;font-size:13px;">
+    📤 Bulk Upload Excel/CSV
+  </a>
+</li>
+{{ block.super }}
+{% endblock %}

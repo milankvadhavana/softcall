@@ -1,0 +1,92 @@
+# terminal workflow for django project (kitchmake)
+
+# ------------------------
+# 1. version control
+# ------------------------
+
+1.1 - python version
+ensure python is at version 3.11.3:
+python --version or python -V
+
+1.2 - pip version
+verify pip is at version 24.3.1:
+pip --version or pip3 --version
+
+1.3 - django version
+check the django version at 5.1.4:
+django-admin --version
+
+
+# ------------------------
+# 2. project setup
+# ------------------------
+
+2.1 - create virtual environment and activate
+python -m venv venv
+
+# on windows
+venv\Scripts\activate
+
+# on macos/linux
+source venv/bin/activate
+
+2.2 - upgrade pip to the specified version
+pip install --upgrade pip==24.3.1
+
+2.3 - install required packages with specific version
+pip freeze > requirements.txt
+pip install -r requirements.txt
+
+2.4 - run project
+python manage.py runserver
+# http://127.0.0.1:8000/ or http://localhost:8000/
+
+
+# ------------------------
+# 3. site-pakages used in project
+# ------------------------
+
+3.1 - install django
+pip install django
+
+3.2 - postgresql support
+pip install psycopg2-binary
+
+3.3 - admin template
+pip install django-jazzmin
+
+
+# ------------------------
+# 4. django project setup
+# ------------------------
+
+4.1 - create project and application
+django-admin startproject project_name .
+python manage.py startapp applicaion_name
+
+4.2 - migrate project and application
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py makemigrations application_name
+python manage.py migrate application_name
+
+4.3 - create super user and change password of super user
+python manage.py createsuperuser
+python manage.py changepassword user_name
+
+4.4 - prepare for deployment, collect static files into a single directory
+python manage.py collectstatic
+
+
+install the Django Rest Framework - pip install django djangorestframework
+
+install the CORS in the django- pip install django-cors-headers
+
+install Django jwt -pip install djangorestframework-simplejwt
+
+
+
+install the swagger inn the project 
+pip install drf-spectacular
+pip install drf-spectacular-sidecar

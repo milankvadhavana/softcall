@@ -1,0 +1,15 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  {% if show_bulk_upload %}
+  <li>
+    <a href="{{ bulk_upload_url }}"
+       style="background:#17a2b8;padding:8px 16px;border-radius:4px;
+              color:#fff;font-weight:bold;text-decoration:none;
+              display:inline-block;margin-right:4px;">
+      📤 Bulk Upload (CSV / Excel)
+    </a>
+  </li>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}

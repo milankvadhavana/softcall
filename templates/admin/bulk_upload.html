@@ -1,0 +1,72 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Home</a> ›
+  <a href="{% url 'admin:soft_contactdata_changelist' %}">Contacts</a> ›
+  Bulk Upload
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="max-width:680px;">
+
+  <h2 style="margin-bottom:6px;">📤 Bulk Upload Contacts</h2>
+  <p style="color:#666;margin-bottom:20px;">Upload CSV or Excel to add many contacts at once.</p>
+
+  <div style="background:#fff8e1;border-left:4px solid #ffc107;padding:14px 18px;border-radius:4px;margin-bottom:28px;">
+    <strong>Required columns in your file:</strong><br><br>
+    <code>name</code> — Contact full name (required)<br>
+    <code>contact_number</code> — Phone number (required)<br>
+    <code>email</code> — Email (optional)<br><br>
+    <strong>Example:</strong>
+    <pre style="background:#f5f5f5;padding:10px;border-radius:4px;margin:8px 0 0 0;font-size:12px;">name,contact_number,email
+John Doe,9876543210,john@example.com
+Jane Smith,9123456780,</pre>
+  </div>
+
+  <form method="post" enctype="multipart/form-data"
+        style="background:#fff;padding:28px;border:1px solid #ddd;border-radius:6px;">
+    {% csrf_token %}
+
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-weight:bold;margin-bottom:8px;">
+        Assign all contacts to: <span style="color:red;">*</span>
+      </label>
+      {{ form.assigned_to }}
+      {% for e in form.assigned_to.errors %}
+        <p style="color:red;font-size:12px;margin:4px 0;">{{ e }}</p>
+      {% endfor %}
+      <p style="color:#888;font-size:12px;margin:6px 0 0 0;">
+        Only your active users appear here.
+        <a href="/admin/soft/customuser/add/" target="_blank">+ Add a user first</a> if empty.
+      </p>
+    </div>
+
+    <div style="margin-bottom:28px;">
+      <label style="display:block;font-weight:bold;margin-bottom:8px;">
+        Select File (.csv or .xlsx): <span style="color:red;">*</span>
+      </label>
+      {{ form.file }}
+      {% for e in form.file.errors %}
+        <p style="color:red;font-size:12px;margin:4px 0;">{{ e }}</p>
+      {% endfor %}
+    </div>
+
+    <div style="display:flex;gap:12px;">
+      <button type="submit"
+        style="background:#28a745;color:#fff;padding:10px 28px;border:none;
+               border-radius:4px;font-size:14px;cursor:pointer;font-weight:bold;">
+        ⬆ Upload &amp; Save Contacts
+      </button>
+      <a href="/admin/soft/contactdata/"
+        style="background:#6c757d;color:#fff;padding:10px 20px;border-radius:4px;
+               text-decoration:none;font-size:14px;display:inline-block;">
+        Cancel
+      </a>
+    </div>
+  </form>
+
+</div>
+{% endblock %}
