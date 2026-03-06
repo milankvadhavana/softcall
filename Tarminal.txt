@@ -104,6 +104,7 @@ git push -u origin main
 or
 
 
-git remote add origin https://github.com/milankvadhavana/softcall.git
-git branch -M main
-git push -u origin main
+git status
+git add .
+git commit -m "Updated project files"
+git push origin main
