@@ -1,10 +1,20 @@
+import os
 from pathlib import Path
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3'
-DEBUG      = True
-ALLOWED_HOSTS = ['*']
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3')
+DEBUG      = os.environ.get('DEBUG', 'False') == 'True'
+
+# ✅ FIXED — allows Railway domain + localhost
+ALLOWED_HOSTS = [
+    'softcall-production.up.railway.app',
+    '127.0.0.1',
+    'localhost',
+    '*',   # fallback
+]
+
 AUTH_USER_MODEL = 'soft.CustomUser'
 
 INSTALLED_APPS = [
@@ -24,6 +34,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ serves static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,6 +93,28 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS' : True,
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE'              : 'SoftCall API',
+    'VERSION'            : '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SECURITY'           : [{'BearerAuth': []}],
+    'COMPONENTS'         : {
+        'securitySchemes': {
+            'BearerAuth': {
+                'type': 'http', 'scheme': 'bearer', 'bearerFormat': 'JWT',
+            }
+        }
+    },
+    'SWAGGER_UI_DIST'  : 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST'       : 'SIDECAR',
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'filter': True,
+    },
+}
+
+# ✅ CORS — allow your Ionic app domain
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS     = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
 CORS_ALLOW_HEADERS     = [
@@ -89,27 +122,14 @@ CORS_ALLOW_HEADERS     = [
     'dnt', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with',
 ]
 
-SPECTACULAR_SETTINGS = {
-    'TITLE'      : 'SoftCall API',
-    'DESCRIPTION': 'API documentation for SoftCall — calling app with Superadmin, Admin & User roles.',
-    'VERSION'    : '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_DIST'     : 'SIDECAR',
-    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
-    'REDOC_DIST'          : 'SIDECAR',
-    'COMPONENT_SPLIT_REQUEST': True,
-    'TAGS': [
-        {'name': 'Auth',       'description': 'Login & token refresh'},
-        {'name': 'Superadmin', 'description': 'Superadmin manages admins & views all users'},
-        {'name': 'Admin',      'description': 'Admin manages users & contacts'},
-        {'name': 'User',       'description': 'User views assigned contacts'},
-    ],
-}
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE     = 'Asia/Kolkata'
+USE_I18N      = True
+USE_TZ        = True
 
-LANGUAGE_CODE      = 'en-us'
-TIME_ZONE          = 'Asia/Kolkata'
-USE_I18N           = True
-USE_TZ             = True
-STATIC_URL         = '/static/'
-STATIC_ROOT        = BASE_DIR / 'staticfiles'
+# ✅ Static files for production (Railway)
+STATIC_URL  = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
