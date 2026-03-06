@@ -4,8 +4,13 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3'
-DEBUG      = True
-ALLOWED_HOSTS = ['*']
+DEBUG      = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = [
+    'softcall-production.up.railway.app',
+    '127.0.0.1',
+    'localhost',
+    '*',   # fallback
+]
 AUTH_USER_MODEL = 'soft.CustomUser'
 
 INSTALLED_APPS = [
@@ -25,6 +30,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -114,3 +120,4 @@ USE_TZ             = True
 STATIC_URL         = '/static/'
 STATIC_ROOT        = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
