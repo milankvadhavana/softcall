@@ -3,18 +3,14 @@ from pathlib import Path
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3')
+SECRET_KEY = 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3'
 DEBUG      = os.environ.get('DEBUG', 'False') == 'True'
-
-# ✅ FIXED — allows Railway domain + localhost
 ALLOWED_HOSTS = [
     'softcall-production.up.railway.app',
     '127.0.0.1',
     'localhost',
     '*',   # fallback
 ]
-
 AUTH_USER_MODEL = 'soft.CustomUser'
 
 INSTALLED_APPS = [
@@ -34,8 +30,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ serves static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,3 +129,4 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
