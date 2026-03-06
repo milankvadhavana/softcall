@@ -4,7 +4,7 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3'
 DEBUG      = True
-ALLOWED_HOSTS = ['milan9016.pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'soft.CustomUser'
 
 INSTALLED_APPS = [
