@@ -16,6 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'soft',
 ]
 
@@ -71,6 +73,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -85,6 +88,23 @@ CORS_ALLOW_HEADERS     = [
     'accept', 'accept-encoding', 'authorization', 'content-type',
     'dnt', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE'      : 'SoftCall API',
+    'DESCRIPTION': 'API documentation for SoftCall — calling app with Superadmin, Admin & User roles.',
+    'VERSION'    : '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST'     : 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST'          : 'SIDECAR',
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'Auth',       'description': 'Login & token refresh'},
+        {'name': 'Superadmin', 'description': 'Superadmin manages admins & views all users'},
+        {'name': 'Admin',      'description': 'Admin manages users & contacts'},
+        {'name': 'User',       'description': 'User views assigned contacts'},
+    ],
+}
 
 LANGUAGE_CODE      = 'en-us'
 TIME_ZONE          = 'Asia/Kolkata'
