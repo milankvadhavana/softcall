@@ -7,4 +7,5 @@ drf-spectacular-sidecar
 pandas
 openpyxl
 gunicorn
+whitenoise
 python-dotenv

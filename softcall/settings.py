@@ -4,13 +4,9 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_r7)pxq*&_u@5gjrqtsp%u9rb#z--3-wy9*21@fszg8us4fck3'
-DEBUG      = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = [
-    'softcall.up.railway.app',
-    '127.0.0.1',
-    'localhost',
-    '*',   # fallback
-]
+# DEBUG      = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True  # Set to False in production; use env var for flexibility
+ALLOWED_HOSTS = ['*']  # Allow all hosts for development; restrict in production
 AUTH_USER_MODEL = 'soft.CustomUser'
 
 INSTALLED_APPS = [
@@ -31,6 +27,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
